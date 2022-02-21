@@ -1,0 +1,1258 @@
+{
+  "Uuid": "3c9d0464-8643-5ffe-96e5-ab1769818209",
+  "IsCustomNode": false,
+  "Description": "",
+  "Name": "Расчёт_краски_Ревит",
+  "ElementResolver": {
+    "ResolutionMap": {
+      "Math.PI": {
+        "Key": "DSCore.Math",
+        "Value": "DSCoreNodes.dll"
+      },
+      "List.Count": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      },
+      "List": {
+        "Key": "List",
+        "Value": "BuiltIn.ds"
+      }
+    }
+  },
+  "Inputs": [
+    {
+      "Id": "2ccd54ed021445c98780833137fa7716",
+      "Name": "Поставьте True, если хотите учесть трубы по ГОСТ 3262-75 в расчёте!",
+      "Type": "boolean",
+      "Value": "false",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "Id": "9f56bda89c11412ea6cc719a8bb00048",
+      "Name": "Напишите диаметры труб через пробел. Пример: 6 8 10",
+      "Type": "string",
+      "Value": "",
+      "Description": "Создание строки."
+    },
+    {
+      "Id": "f7b1a50f48ba47f9b6c04204712cfb7b",
+      "Name": "Напишите количество метров для каждой трубы, соответственно диаметрам труб через пробел. Пример: 10 20 30",
+      "Type": "string",
+      "Value": "",
+      "Description": "Создание строки."
+    },
+    {
+      "Id": "cd190d23569b49b7932959fd2dd838ba",
+      "Name": "Поставьте True, если хотите учесть швеллеры по ГОСТ 8240-97 в расчёте!",
+      "Type": "boolean",
+      "Value": "false",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "Id": "32f8279ab8894585a7da31e70081d166",
+      "Name": "Напишите номера швеллеров через пробел. Пример: 5 8 10",
+      "Type": "string",
+      "Value": "",
+      "Description": "Создание строки."
+    },
+    {
+      "Id": "f352c8739a5a4e2cbf2bf4d37dbfe203",
+      "Name": "Напишите количество килограмм для каждого типа швеллера, соответственно номерам швеллеров через пробел. Пример: 10 20 30",
+      "Type": "string",
+      "Value": "",
+      "Description": "Создание строки."
+    },
+    {
+      "Id": "d48fbc31da7e4eeb91935cf93f3a1899",
+      "Name": "Поставьте True, если хотите учесть уголки по ГОСТ 8509-93 в расчёте!",
+      "Type": "boolean",
+      "Value": "false",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "Id": "a868effbab804630923c603678611646",
+      "Name": "Напишите данные для каждого уголка в формате \"номер уголка-толщина уголка\" через пробел. Пример: 2-3 3-3 5-4",
+      "Type": "string",
+      "Value": "",
+      "Description": "Создание строки."
+    },
+    {
+      "Id": "f3f3b723ad5e41fea5640e11f1be188e",
+      "Name": "Напишите количество килограмм для каждого типа уголка, соответственно номерам уголков и их толщинам через пробел. Пример: 10 20 30",
+      "Type": "string",
+      "Value": "",
+      "Description": "Создание строки."
+    },
+    {
+      "Id": "0a1fe19a64b8455fba5a2796633651d8",
+      "Name": "Поставьте True, если хотите учесть полосы по ГОСТ 103-2006 в расчёте!",
+      "Type": "boolean",
+      "Value": "false",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "Id": "74fffc5725c249b783d94ffe416c1333",
+      "Name": "Напишите данные для каждой полосы в формате \"ширина полосы-толщина полосы\" через пробел. Пример: 10-4 20-5 70-4",
+      "Type": "string",
+      "Value": "",
+      "Description": "Создание строки."
+    },
+    {
+      "Id": "4436e15cbc144cc38507706e0ecd015c",
+      "Name": "Напишите количество метров для каждого типа полосы, соответственно ширине и толщине полосы через пробел. Пример: 10 20 30",
+      "Type": "string",
+      "Value": "",
+      "Description": "Создание строки."
+    }
+  ],
+  "Outputs": [
+    {
+      "Id": "5a5d51348c374a939a00158be7602db5",
+      "Name": "Подведение итогов работы",
+      "Type": "string",
+      "InitialValue": "В результате расчёта ни одни элементы не были учтены!\nЕсли Вы хотите их учесть в расчёте, то установите галочку в положение True у нужного элемента!\n",
+      "Description": "Визуализация входного элемента узла."
+    },
+    {
+      "Id": "ead99bdec960446db6e7933c2e16cc68",
+      "Name": "Централизованный результирующий блок анализа, обработки и вывода данных",
+      "Type": "string",
+      "InitialValue": "В результате расчёта ни одни элементы не были учтены!\nЕсли Вы хотите их учесть в расчёте, то установите галочку в положение True у нужного элемента!\n",
+      "Description": "Выполнение встроенного сценария IronPython."
+    }
+  ],
+  "Nodes": [
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "2ccd54ed021445c98780833137fa7716",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "ca10c6d48cab4e40996faadfb7a7f852",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "9f56bda89c11412ea6cc719a8bb00048",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "1905fdf68ff947b68b1ffb13f2dc400e",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Создание строки."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Watch, CoreNodeModels",
+      "NodeType": "ExtensionNode",
+      "Id": "5a5d51348c374a939a00158be7602db5",
+      "Inputs": [
+        {
+          "Id": "ffb5eeacaf7c4b8dbdba6ef1cbea5ead",
+          "Name": "",
+          "Description": "Узел для оценки.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "7fe79053160a445dbf5963b96f66d410",
+          "Name": "",
+          "Description": "Просмотр содержимого.",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Визуализация входного элемента узла."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "f7b1a50f48ba47f9b6c04204712cfb7b",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "24e04ef16f424d3b9d03566a38b9e605",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Создание строки."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "def examination_dimension(temp_value):\r\n\tif temp_value not in [6, 8, 10, 15, 20, 25, 32, 40, 50, 65, 80, 90, 100, 125, 150]:\r\n\t\treturn 'Код 012'\r\n\telif temp_value in dimension_list:\r\n\t\treturn 'Код 011'\r\n\telse:\r\n\t\tdimension_list.append(temp_value)\r\n\t\treturn 'Код 200'\r\n\r\n\r\nif IN[0]:\r\n\tcode_digit, total_flag = '', True\r\n\tfirst_temp, second_temp = IN[1].strip(), IN[2].strip()\r\n\tif len(first_temp) == 0 or len(second_temp) == 0:\r\n\t\tcode_digit = \"Код 013\"\r\n\t\ttotal_flag = False\r\n\tdimension_list, value_list = [], []\r\n\ttemp_char  = ''\r\n\tfor now in first_temp:\r\n\t\tif not total_flag:\r\n\t\t\tbreak\r\n\t\tif now.isdigit():\r\n\t\t\ttemp_char += now\r\n\t\telif temp_char:\r\n\t\t\tcode_digit = examination_dimension(int(temp_char))\r\n\t\t\tif code_digit != 'Код 200':\r\n\t\t\t\ttotal_flag = False\r\n\t\t\ttemp_char = ''\r\n\tif temp_char:\r\n\t\tcode_digit = examination_dimension(int(temp_char))\r\n\t\tif code_digit != 'Код 200':\r\n\t\t\t\ttotal_flag = False\r\n\ttemp_char = ''\r\n\tsecond_list_length = len(second_temp)\r\n\tfor i in range(second_list_length):\r\n\t\tif not total_flag:\r\n\t\t\tbreak\r\n\t\tif second_temp[i].isdigit():\r\n\t\t\ttemp_char += second_temp[i]\r\n\t\telif i != 0 and i != second_list_length - 1 and (second_temp[i] == ',' or second_temp[i] == '.'):\r\n\t\t\ttemp_char += '.'\r\n\t\telif temp_char:\r\n\t\t\tvalue_list.append(float(temp_char))\r\n\t\t\ttemp_char = ''\r\n\tif temp_char:\r\n\t\tvalue_list.append(float(temp_char))\r\n\tif len(dimension_list) != len(value_list) and code_digit not in ['Код 011', 'Код 012', 'Код 013']:\r\n\t\tOUT = 'Код 014'\r\n\telif code_digit != 'Код 200':\r\n\t\tOUT = code_digit\r\n\telse:\r\n\t\tOUT = dimension_list, value_list\r\nelse:\r\n\tOUT = \"Код 01404\"",
+      "VariableInputPorts": true,
+      "Id": "69502b297b1e498881ded95aa019181a",
+      "Inputs": [
+        {
+          "Id": "06f2a9e5cac2412fb2cd72f7a7c70e96",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4c42019fe1c840d8b91486a0dea323bc",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "710cf682460e4ba09e12aca37a0ec321",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "67cc2b4df4d747bea27d107af399d63b",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "from math import pi\r\n\r\ndimension_diameter_dict = {6: 10.2, 8: 13.5, 10: 17.0, 15: 21.3, 20: 26.8, 25: 33.5, 32: 42.3, 40: 48.0, 50: 60.0, 65: 75.5, 80: 88.5, 90: 101.3, 100: 114.0, 125: 140.0, 150: 165.0}\r\nif IN[0][:3] == 'Код':\r\n\tOUT = IN[0]\r\nelse:\r\n\tdimension_list, count_list = IN[0][:len(IN[0]) // 2][0], IN[0][len(IN[0]) // 2 : len(IN[0])][0]\r\n\ttotal = 0.0\r\n\tfor i in range(len(dimension_list)):\r\n\t\ttotal += dimension_diameter_dict[dimension_list[i]] * count_list[i] / 1000.0 * pi\r\n\tOUT = total",
+      "VariableInputPorts": true,
+      "Id": "aacd20340b464ba98e49cac00b29db65",
+      "Inputs": [
+        {
+          "Id": "6b0d56889b0348f5bb9118255cff2eeb",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "69e651da5b2e4a8198f1def3b2493469",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "def examination_dimension(temp_value):\r\n\tif temp_value not in ['5', '6.5', '8', '10', '12', '14', '16', '16a', '16а', '18', '18a', '18а', '20', '22', '24', '27', '30', '33', '36', '40']:\r\n\t\treturn 'Код 022'\r\n\telif temp_value in dimension_list:\r\n\t\treturn 'Код 021'\r\n\telse:\r\n\t\tdimension_list.append(temp_value)\r\n\t\treturn 'Код 200'\r\n\r\n\r\nif IN[0]:\r\n\tcode_digit, total_flag = '', True\r\n\tfirst_temp, second_temp = IN[1].strip(), IN[2].strip()\r\n\tif len(first_temp) == 0 or len(second_temp) == 0:\r\n\t\tcode_digit = \"Код 023\"\r\n\t\ttotal_flag = False\r\n\tdimension_list, value_list = [], []\r\n\ttemp_char  = ''\r\n\tfor now in first_temp:\r\n\t\tif not total_flag:\r\n\t\t\tbreak\r\n\t\tif now == 'a' or now == 'а':\r\n\t\t\ttemp_char += now\r\n\t\telif now.isdigit():\r\n\t\t\ttemp_char += now\r\n\t\telif temp_char:\r\n\t\t\tcode_digit = examination_dimension(temp_char)\r\n\t\t\tif code_digit != 'Код 200':\r\n\t\t\t\ttotal_flag = False\r\n\t\t\ttemp_char = ''\r\n\tif temp_char:\r\n\t\tcode_digit = examination_dimension(temp_char)\r\n\t\tif code_digit != 'Код 200':\r\n\t\t\t\ttotal_flag = False\r\n\ttemp_char = ''\r\n\tsecond_list_length = len(second_temp)\r\n\tfor i in range(second_list_length):\r\n\t\tif not total_flag:\r\n\t\t\tbreak\r\n\t\tif second_temp[i].isdigit():\r\n\t\t\ttemp_char += second_temp[i]\r\n\t\telif i != 0 and i != second_list_length - 1 and (second_temp[i] == ',' or second_temp[i] == '.'):\r\n\t\t\ttemp_char += '.'\r\n\t\telif temp_char:\r\n\t\t\tvalue_list.append(float(temp_char))\r\n\t\t\ttemp_char = ''\r\n\tif temp_char:\r\n\t\tvalue_list.append(float(temp_char))\r\n\tif len(dimension_list) != len(value_list) and code_digit not in ['Код 021', 'Код 022', 'Код 023']:\r\n\t\tOUT = 'Код 024'\r\n\telif code_digit != 'Код 200':\r\n\t\tOUT = code_digit\r\n\telse:\r\n\t\tOUT = dimension_list, value_list\r\nelse:\r\n\tOUT = \"Код 02404\"",
+      "VariableInputPorts": true,
+      "Id": "e1a9029ce3954fc4922f0206a9003ceb",
+      "Inputs": [
+        {
+          "Id": "5fa1145285c24c828de49a3ff2121b11",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "3fd905ccb7a8448e84df150152630b58",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "58844e21b47a4b5f8ab852b6528f71b4",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "5e622e093a9e4442a8517935c0d73298",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "dimension_channel_dict = {'5': (50, 32, 4.4, 7.0, 4.84), '6.5': (65, 36, 4.4, 7.2, 5.9), '8': (80, 40, 4.5, 7.4, 7.05), '10': (100, 46, 4.5, 7.6, 8.59), '12': (120, 52, 4.8, 7.8, 10.4), '14': (140, 58, 4.9, 8.1, 12.3), '16': (160, 64, 5.0, 8.4, 14.2), '16a': (160, 68, 5.0, 9.0, 15.3), '16а': (160, 68, 5.0, 9.0, 15.3), '18': (180, 70, 5.1, 8.7, 16.3), '18a': (180, 74, 5.1, 9.3, 17.4), '18а': (180, 74, 5.1, 9.3, 17.4), '20': (200, 76, 5.2, 9.0, 18.4), '22': (220, 82, 5.4, 9.5, 21.0), '24': (240, 90, 5.6, 10.0, 24.0), '27': (270, 95, 6.0, 10.5, 27.7), '30': (300, 100, 6.5, 11.0, 31.8), '33': (330, 105, 7.0, 11.7, 36.5), '36': (360, 110, 7.5, 12.6, 41.9), '40': (400, 115, 8.0, 13.5, 48.3)}\r\nif IN[0][:3] == 'Код':\r\n\tOUT = IN[0]\r\nelse:\r\n\tdimension_list, count_list = IN[0][:len(IN[0]) // 2][0], IN[0][len(IN[0]) // 2 : len(IN[0])][0]\r\n\ttotal = 0.0\r\n\tfor i in range(len(dimension_list)):\r\n\t\th, b, s, t, weight = dimension_channel_dict[dimension_list[i]]\r\n\t\ttotal += ((h + 2 * b - s) / 500.0 + 2 * (h * s + 2 * (b - s) * t) / 10.0**6) * count_list[i] / weight\r\n\tOUT = total",
+      "VariableInputPorts": true,
+      "Id": "32bf7e9657014c3a9541939967af2702",
+      "Inputs": [
+        {
+          "Id": "8133b1ce21dc47c39b50e10bf139ce87",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "eca400b58540458186a642029043d12a",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "cd190d23569b49b7932959fd2dd838ba",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d93c969415b248c7aa2bec43d156a450",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "32f8279ab8894585a7da31e70081d166",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "d75c5cf864744d68a9239f721c3b877c",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Создание строки."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "f352c8739a5a4e2cbf2bf4d37dbfe203",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "053abf34389a4c06a7be7d2329105e08",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Создание строки."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "d48fbc31da7e4eeb91935cf93f3a1899",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "7c8f7f4ed42543acb5a228967d9da357",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "a868effbab804630923c603678611646",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "38111bb433434e3aa5196cc407c6a351",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Создание строки."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "def transform_parameter(parameter):\r\n\tif '.' in parameter:\r\n\t\treturn float(parameter)\r\n\treturn int(parameter)\r\n\r\n\r\ndimension_corner_dict = {'2': {'3': 0.89, '4': 1.15}, '2.5': {'3': 1.12, '4': 1.46}, '2.8': {'3': 1.27}, '3': {'3': 1.36, '4': 1.78}, '3.2': {'3': 1.46, '4': 1.91}, '3.5': {'3': 1.6, '4': 2.1, '5': 2.58}, '4': {'3': 1.85, '4': 2.42, '5': 2.98}, '4.5': {'3': 2.08, '4': 2.73, '5': 3.37}, '5': {'3': 2.32, '4': 3.05, '5': 3.77, '6': 4.47}, '5.6': {'4': 3.44, '5': 4.25}, '6.3': {'4': 3.9, '5': 4.81, '6': 5.72}, '7': {'4.5': 4.87, '5': 5.38, '6': 6.39, '7': 7.39, '8': 8.37}, '7.5': {'5': 5.8, '6': 6.89, '7': 7.96, '8': 9.02, '9': 10.07}, '8': {'5.5': 6.78, '6': 7.36, '7': 8.51, '8': 9.65}, '9': {'6': 8.33, '7': 9.64, '8': 10.93, '9': 12.2}, '10': {'6.5': 10.06, '7': 10.79, '8': 12.25, '10': 15.1, '12': 17.9, '14': 20.63, '16': 23.3}, '11': {'7': 11.89, '8': 13.5}, '12.5': {'8': 15.46, '9': 17.3, '10': 19.1, '12': 22.68, '14': 26.2, '16': 29.65}, '14': {'9': 19.41, '10': 21.45, '12': 25.5}, '16': {'10': 24.67, '11': 27.02, '12': 29.35, '14': 34.2, '16': 38.52, '18': 43.01, '20': 47.41}, '18': {'11': 30.47, '12': 33.12}, '20': {'12': 36.97, '13': 39.92, '14': 42.8, '16': 48.65, '20': 60.08, '25': 74.02, '30': 87.56}, '22': {'14': 47.4, '16': 53.83}, '25': {'16': 61.55, '18': 68.86, '20': 76.11, '22': 83.31, '25': 93.97, '28': 104.5, '30': 111.44, '35': 128.51}}\r\nif IN[0][:3] == 'Код':\r\n\tOUT = IN[0]\r\nelse:\r\n\tdimension_list, count_list = IN[0][:len(IN[0]) // 2][0], IN[0][len(IN[0]) // 2 : len(IN[0])][0]\r\n\ttotal = 0.0\r\n\tlst = []\r\n\tfor i in range(len(dimension_list)):\r\n\t\tfirst_parameter, second_parameter = dimension_list[i].split('-')\r\n\t\tweight = dimension_corner_dict[first_parameter][second_parameter]\r\n\t\tfirst_parameter, second_parameter = transform_parameter(first_parameter), transform_parameter(second_parameter)\t\r\n\t\ttotal += (first_parameter / 25.0 + 2 * (2 * first_parameter * second_parameter - second_parameter**2) / 10.0**6) * count_list[i] / weight\r\n\tOUT = total",
+      "VariableInputPorts": true,
+      "Id": "5f6f7eecd3d649f7ba6edf3a3798fd46",
+      "Inputs": [
+        {
+          "Id": "188f966304c24cc2b6fefb9cd8bc9ee0",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a0ed53da98934b71b38a88418aea9106",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "f3f3b723ad5e41fea5640e11f1be188e",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "38fa25f6ae8a473381b1e275c80ba541",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Создание строки."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "def examination_dimension(temp_value):\r\n\ttry:\r\n\t\tftv, stv = map(float, temp_value.split('-'))\r\n\texcept ValueError:\r\n\t\treturn 'Код 035'\r\n\tmy_examination_dict = {2.0: (3.0, 4.0), 2.5: (3.0, 4.0), 2.8: (3.0), 3.0: (3.0, 4.0), 3.2: (3.0, 4.0), 3.5: (3.0, 4.0, 5.0), 4.0: (3.0, 4.0, 5.0), 4.5: (3.0, 4.0, 5.0), 5.0: (3.0, 4.0, 5.0, 6.0), 5.6: (4.0, 5.0), 6.3: (4.0, 5.0, 6.0), 7.0: (4.5, 5.0, 6.0, 7.0, 8.0), 7.5: (5.0, 6.0, 7.0, 8.0, 9.0), 8.0: (5.5, 6.0, 7.0, 8.0), 9.0: (6.0, 7.0, 8.0, 9.0), 10.0: (6.5, 7.0, 8.0, 10.0, 12.0, 14.0, 16.0), 11.0: (7.0, 8.0), 12.5: (8.0, 9.0, 10.0, 12.0, 14.0, 16.0), 14.0: (9.0, 10.0, 12.0), 16.0: (10.0, 11.0, 12.0, 14.0, 16.0, 18.0, 20.0), 18.0: (11.0, 12.0), 20.0: (12.0, 13.0, 14.0, 16.0, 20.0, 25.0, 30.0), 22.0: (14.0, 16.0), 25.0: (16.0, 18.0, 20.0, 22.0, 25.0, 28.0, 30.0, 35.0)}\r\n\tif ftv not in my_examination_dict or stv not in my_examination_dict[ftv]:\r\n\t\treturn 'Код 032'\r\n\telif temp_value in dimension_list:\r\n\t\treturn 'Код 031'\r\n\telse:\r\n\t\tdimension_list.append(temp_value)\r\n\t\treturn 'Код 200'\r\n\r\n\r\nif IN[0]:\r\n\tcode_digit, total_flag = '', True\r\n\tfirst_temp, second_temp = IN[1].strip(), IN[2].strip()\r\n\tif len(first_temp) == 0 or len(second_temp) == 0:\r\n\t\tcode_digit = \"Код 033\"\r\n\t\ttotal_flag = False\r\n\tdimension_list, value_list = [], []\r\n\ttemp_char  = ''\r\n\tfor now in first_temp:\r\n\t\tif not total_flag:\r\n\t\t\tbreak\r\n\t\tif now == '-':\r\n\t\t\ttemp_char += now\r\n\t\telif now == '.' or now == ',':\r\n\t\t\ttemp_char += '.'\r\n\t\telif now.isdigit():\r\n\t\t\ttemp_char += now\r\n\t\telif temp_char:\r\n\t\t\tcode_digit = examination_dimension(temp_char)\r\n\t\t\tif code_digit != 'Код 200':\r\n\t\t\t\ttotal_flag = False\r\n\t\t\ttemp_char = ''\r\n\tif temp_char:\r\n\t\tcode_digit = examination_dimension(temp_char)\r\n\t\tif code_digit != 'Код 200':\r\n\t\t\t\ttotal_flag = False\r\n\ttemp_char = ''\r\n\tsecond_list_length = len(second_temp)\r\n\tfor i in range(second_list_length):\r\n\t\tif not total_flag:\r\n\t\t\tbreak\r\n\t\tif second_temp[i].isdigit():\r\n\t\t\ttemp_char += second_temp[i]\r\n\t\telif i != 0 and i != second_list_length - 1 and (second_temp[i] == ',' or second_temp[i] == '.'):\r\n\t\t\ttemp_char += '.'\r\n\t\telif temp_char:\r\n\t\t\tvalue_list.append(float(temp_char))\r\n\t\t\ttemp_char = ''\r\n\tif temp_char:\r\n\t\tvalue_list.append(float(temp_char))\r\n\tif len(dimension_list) != len(value_list) and code_digit not in ['Код 031', 'Код 032', 'Код 033', 'Код 035']:\r\n\t\tOUT = 'Код 034'\r\n\telif code_digit != 'Код 200':\r\n\t\tOUT = code_digit\r\n\telse:\r\n\t\tOUT = dimension_list, value_list\r\nelse:\r\n\tOUT = \"Код 03404\"",
+      "VariableInputPorts": true,
+      "Id": "b9dd908e90ee4363924da50443c49d2b",
+      "Inputs": [
+        {
+          "Id": "8dcdca83f4454e4699c0243fe1ebd4d8",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "4659be94baf74694b3cb4001b54364c0",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "b4211a0ba78d4740a927be361ac7ea0f",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "6f5a41948d5d4b6bb74e0006dbc0bb10",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "def examination_dimension(temp_value):\r\n\ttry:\r\n\t\tftv, stv = map(int, temp_value.split('-'))\r\n\texcept ValueError:\r\n\t\treturn 'Код 045'\r\n\tftv_list = [10, 12, 14, 15, 16, 18, 20, 22, 25, 28, 30, 32, 35, 36, 40, 45, 50, 55, 60, 63, 65, 70, 75, 80, 85, 90, 95, 100, 105, 110, 120, 125, 130, 140, 150, 160, 170, 180, 190, 200]\r\n\tstv_list = [4, 5, 6, 7, 8, 9, 10, 11, 12, 14, 15, 16, 18, 20, 22, 25, 28, 30, 32, 35, 36, 40, 45, 50, 56, 60, 80]\r\n\tif ftv not in ftv_list or stv not in stv_list:\r\n\t\treturn 'Код 042'\r\n\telif temp_value in dimension_list:\r\n\t\treturn 'Код 041'\r\n\telse:\r\n\t\tdimension_list.append(temp_value)\r\n\t\treturn 'Код 200'\r\n\r\n\r\nif IN[0]:\r\n\tcode_digit, total_flag = '', True\r\n\tfirst_temp, second_temp = IN[1].strip(), IN[2].strip()\r\n\tif len(first_temp) == 0 or len(second_temp) == 0:\r\n\t\tcode_digit = \"Код 043\"\r\n\t\ttotal_flag = False\r\n\tdimension_list, value_list = [], []\r\n\ttemp_char  = ''\r\n\tfor now in first_temp:\r\n\t\tif not total_flag:\r\n\t\t\tbreak\r\n\t\tif now == '-':\r\n\t\t\ttemp_char += now\r\n\t\telif now.isdigit():\r\n\t\t\ttemp_char += now\r\n\t\telif temp_char:\r\n\t\t\tcode_digit = examination_dimension(temp_char)\r\n\t\t\tif code_digit != 'Код 200':\r\n\t\t\t\ttotal_flag = False\r\n\t\t\ttemp_char = ''\r\n\tif temp_char:\r\n\t\tcode_digit = examination_dimension(temp_char)\r\n\t\tif code_digit != 'Код 200':\r\n\t\t\t\ttotal_flag = False\r\n\ttemp_char = ''\r\n\tsecond_list_length = len(second_temp)\r\n\tfor i in range(second_list_length):\r\n\t\tif not total_flag:\r\n\t\t\tbreak\r\n\t\tif second_temp[i].isdigit():\r\n\t\t\ttemp_char += second_temp[i]\r\n\t\telif i != 0 and i != second_list_length - 1 and (second_temp[i] == ',' or second_temp[i] == '.'):\r\n\t\t\ttemp_char += '.'\r\n\t\telif temp_char:\r\n\t\t\tvalue_list.append(float(temp_char))\r\n\t\t\ttemp_char = ''\r\n\tif temp_char:\r\n\t\tvalue_list.append(float(temp_char))\r\n\tif len(dimension_list) != len(value_list) and code_digit not in ['Код 041', 'Код 042', 'Код 043', 'Код 045']:\r\n\t\tOUT = 'Код 044'\r\n\telif code_digit != 'Код 200':\r\n\t\tOUT = code_digit\r\n\telse:\r\n\t\tOUT = dimension_list, value_list\r\nelse:\r\n\tOUT = \"Код 04404\"",
+      "VariableInputPorts": true,
+      "Id": "3f07e9dfdad743259df23c656df4b36c",
+      "Inputs": [
+        {
+          "Id": "22f67e0958764b69bde5c5266a0a77c5",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "dfa1e3b2ca11402491dc39d046bed571",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "112e6b8ae142468eac20e7151db31535",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a67cf502ffcd4f42b65e6e5a81bdb497",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.BoolSelector, CoreNodeModels",
+      "NodeType": "BooleanInputNode",
+      "InputValue": false,
+      "Id": "0a1fe19a64b8455fba5a2796633651d8",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "e838eee2d85648efa55523af7d629bbe",
+          "Name": "",
+          "Description": "Boolean",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выбор между значениями true и false."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "74fffc5725c249b783d94ffe416c1333",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "005b7664d1fd47c79a9bfed56ba012a0",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Создание строки."
+    },
+    {
+      "ConcreteType": "CoreNodeModels.Input.StringInput, CoreNodeModels",
+      "NodeType": "StringInputNode",
+      "InputValue": "",
+      "Id": "4436e15cbc144cc38507706e0ecd015c",
+      "Inputs": [],
+      "Outputs": [
+        {
+          "Id": "2c4ffa44dc3f4bd788e6fee68d238b4a",
+          "Name": "",
+          "Description": "String",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Создание строки."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "if IN[0][:3] == 'Код':\r\n\tOUT = IN[0]\r\nelse:\r\n\tdimension_list, count_list = IN[0][:len(IN[0]) // 2][0], IN[0][len(IN[0]) // 2 : len(IN[0])][0]\r\n\ttotal = 0.0\r\n\tfor i in range(len(dimension_list)):\r\n\t\tb, a = map(int, dimension_list[i].split('-'))\r\n\t\ttotal += ((a + b) / 500.0 + 2 * a * b / 10.0**6) * count_list[i]\r\n\tOUT = total",
+      "VariableInputPorts": true,
+      "Id": "7d73d325ac6243de8a49f90f949b8813",
+      "Inputs": [
+        {
+          "Id": "aadf1394c3624023bd536e6db01c8abd",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "a6a50d8cd2e8430685da1ed4d108ef95",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    },
+    {
+      "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
+      "NodeType": "PythonScriptNode",
+      "Code": "from math import ceil\r\n\r\nerror_dict = {\r\n\t'Код 011': 'В поле для ввода диаметров труб есть неуникальные позиции.\\nУдалите дубликаты!', \r\n\t'Код 012': 'В поле для ввода диаметров труб был внесён несуществующий в рамках ГОСТ 3262-75 размер трубы.\\nУкажите только существующие диаметры труб!', \r\n\t'Код 013': 'Одно или два поля для труб являются пустыми.\\nНеобходимо заполнить данные поля данными, либо переключить кнопку у труб в положение False, чтобы не учитывать трубы в расчётах!',\r\n\t'Код 014': 'Количество диаметров труб и соответствующих им метражей не совпадает.\\nУдалите лишние позиции, либо добавьте те, которых не хватает для расчёта!',\r\n\t'Код 021': 'В поле для ввода номеров швеллеров есть неуникальные позиции.\\nУдалите дубликаты!', \r\n\t'Код 022': 'В поле для ввода номеров швеллеров был внесён несуществующий в рамках ГОСТ 8240-97 номер швеллера.\\nУкажите только существующие номера швеллеров!', \r\n\t'Код 023': 'Одно или два поля для швеллеров являются пустыми.\\nНеобходимо заполнить данные поля данными, либо переключить кнопку у швеллеров в положение False, чтобы не учитывать швеллерры в расчётах!',\r\n\t'Код 024': 'Количество номеров швеллеров и соответствующих им килограмм не совпадает.\\nУдалите лишние позиции, либо добавьте те, которых не хватает для расчёта!',\r\n\t'Код 031': 'В поле для ввода номеров уголков и их толщин есть неуникальные позиции.\\nУдалите дубликаты!', \r\n\t'Код 032': 'В поле для ввода номеров уголков и их толщин был внесён несуществующий в рамках ГОСТ 8509-93 номер уголка и(или) его толщины.\\nУкажите только существующие номера уголков и их толщины!', \r\n\t'Код 033': 'Одно или два поля для уголков являются пустыми.\\nНеобходимо заполнить данные поля данными, либо переключить кнопку у уголков в положение False, чтобы не учитывать уголки в расчётах!',\r\n\t'Код 034': 'Количество номеров уголков и их толщин и соответствующих им килограмм не совпадает.\\nУдалите лишние позиции, либо добавьте те, которых не хватает для расчёта!',\r\n\t'Код 035': 'Ошибка в разделителе данных у уголков!\\nНеобходимо разделить вводимые данные у уголков в формате: \"Номер уголка-Толщина уголка\" без пробелов или каких-либо других знаков препинания!',\r\n\t'Код 041': 'В поле для ввода ширины и толщины полосы есть неуникальные позиции.\\nУдалите дубликаты!', \r\n\t'Код 042': 'В поле для ввода ширины и толщины полосы был внесён несуществующий в рамках ГОСТ 103-2006 размер ширины и толщины полосы.\\nУкажите только существующие размеры полосы!', \r\n\t'Код 043': 'Одно или два поля для полосы являются пустыми.\\nНеобходимо заполнить данные поля данными, либо переключить кнопку у полосы в положение False, чтобы не учитывать полосы в расчётах!',\r\n\t'Код 044': 'Количество размеров полосы и соответствующих им метражей не совпадает.\\nУдалите лишние позиции, либо добавьте те, которых не хватает для расчёта!',\r\n\t'Код 045': 'Ошибка в разделителе данных у полосы!\\nНеобходимо разделить вводимые данные у полосы в формате: \"Ширина полосы-Толщина полосы\" без пробелов или каких-либо других знаков препинания!'\r\n}\r\n\r\nwarning_dict = {\r\n\t'Код 01404': 'Трубы по ГОСТ 3262-75',\r\n\t'Код 02404': 'Швеллеры по ГОСТ 8240-97',\r\n\t'Код 03404': 'Уголки по ГОСТ 8509-93',\r\n\t'Код 04404': 'Полосы по ГОСТ 103-2006'\r\n}\r\n\r\nerror_list, warning_list = ['В результате расчёта были выявлены следующие ошибки:'], ['В результате расчёта некоторые элементы были не учтены:']\r\ntotal_value_list = []\r\nfor now in IN:\r\n\tif now in error_dict:\r\n\t\terror_list.append(error_dict[now])\r\n\telif now in warning_dict:\r\n\t\twarning_list.append(warning_dict[now])\r\n\telse:\r\n\t\ttotal_value_list.append(now)\r\nif len(error_list) > 1:\r\n\terror_list.append('Исправьте указанные выше ошибки и запустите расчёт заново!')\r\n\tOUT = '\\n'.join(error_list)\r\nelif len(warning_list) > 1 and not total_value_list:\r\n\twarning_list = ['В результате расчёта ни одни элементы не были учтены!']\r\n\twarning_list.append('Если Вы хотите их учесть в расчёте, то установите галочку в положение True у нужного элемента!\\n')\r\n\tOUT = '\\n'.join(warning_list)\r\nelse:\r\n\ttotal_value_area = ceil(sum(total_value_list) * 100) / 100.0\r\n\ttotal_value_dye = ceil(total_value_area * 32) / 100.0\r\n\tresult = 'По результатам расчёта были получены следующие данные:\\nПлощадь окрашиваемой поверхности составляет ' + str(total_value_area) + ' квадратных метров.\\n\\nЗакупаемые материалы:\\nГрунт-эмаль Masscoat155 (покрасить в 2 слоя): ' + str(total_value_dye) + ' килограмм.\\nОбезжириватель Уайт-спирит (покрасить в 1 слой): ' + str(total_value_dye) + ' килограмм.\\n\\n'\r\n\tif len(warning_list) > 1:\r\n\t\twarning_list.append('Если Вы хотите их учесть в расчёте, то установите галочку в положение True у нужного элемента!\\n')\r\n\t\tOUT = result + '\\n'.join(warning_list)\r\n\telse:\r\n\t\tOUT = result\r\n\t\r\n\t\r\n\t\r\n\t\r\n\t\r\n\t\r\n\t\r\n\t\r\n\t\r\n\t\r\n",
+      "VariableInputPorts": true,
+      "Id": "ead99bdec960446db6e7933c2e16cc68",
+      "Inputs": [
+        {
+          "Id": "eeed8c3b0f7b4f86b64ee5d919dfd740",
+          "Name": "IN[0]",
+          "Description": "Input #0",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "8883f44ae61e4d1292286aef43ebd1ae",
+          "Name": "IN[1]",
+          "Description": "Input #1",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "957fbeb51cf64290992928225e0e6eb6",
+          "Name": "IN[2]",
+          "Description": "Input #2",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        },
+        {
+          "Id": "f9647d76c7b64718ac0aaf95c5b0f0aa",
+          "Name": "IN[3]",
+          "Description": "Input #3",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Outputs": [
+        {
+          "Id": "742b1bf2d6be4dae8410f02ac561dfa1",
+          "Name": "OUT",
+          "Description": "Результат сценария Python",
+          "UsingDefaultValue": false,
+          "Level": 2,
+          "UseLevels": false,
+          "KeepListStructure": false
+        }
+      ],
+      "Replication": "Disabled",
+      "Description": "Выполнение встроенного сценария IronPython."
+    }
+  ],
+  "Connectors": [
+    {
+      "Start": "ca10c6d48cab4e40996faadfb7a7f852",
+      "End": "06f2a9e5cac2412fb2cd72f7a7c70e96",
+      "Id": "4499c7db1eb24f9f94c17f457c77541b"
+    },
+    {
+      "Start": "1905fdf68ff947b68b1ffb13f2dc400e",
+      "End": "4c42019fe1c840d8b91486a0dea323bc",
+      "Id": "5e68811649a04fbea60630d00ea49ec8"
+    },
+    {
+      "Start": "24e04ef16f424d3b9d03566a38b9e605",
+      "End": "710cf682460e4ba09e12aca37a0ec321",
+      "Id": "5c50964389a14846b364d16be9cb044b"
+    },
+    {
+      "Start": "67cc2b4df4d747bea27d107af399d63b",
+      "End": "6b0d56889b0348f5bb9118255cff2eeb",
+      "Id": "e405f824fa80402e8d6cb9a5653cb1c1"
+    },
+    {
+      "Start": "69e651da5b2e4a8198f1def3b2493469",
+      "End": "eeed8c3b0f7b4f86b64ee5d919dfd740",
+      "Id": "7f26d958f18e4ee58fa2562837e71796"
+    },
+    {
+      "Start": "5e622e093a9e4442a8517935c0d73298",
+      "End": "8133b1ce21dc47c39b50e10bf139ce87",
+      "Id": "34cdea6b332943c783d61b9d16cf5a67"
+    },
+    {
+      "Start": "eca400b58540458186a642029043d12a",
+      "End": "8883f44ae61e4d1292286aef43ebd1ae",
+      "Id": "8cbf036d4ed64ae0814cf018cc6c1213"
+    },
+    {
+      "Start": "d93c969415b248c7aa2bec43d156a450",
+      "End": "5fa1145285c24c828de49a3ff2121b11",
+      "Id": "d069010ab3b441eeb6fae0636ab541bc"
+    },
+    {
+      "Start": "d75c5cf864744d68a9239f721c3b877c",
+      "End": "3fd905ccb7a8448e84df150152630b58",
+      "Id": "e3932e2bc86149a9a4b1c487a3dc484c"
+    },
+    {
+      "Start": "053abf34389a4c06a7be7d2329105e08",
+      "End": "58844e21b47a4b5f8ab852b6528f71b4",
+      "Id": "482e2925b79f4ce7b532651997b79608"
+    },
+    {
+      "Start": "7c8f7f4ed42543acb5a228967d9da357",
+      "End": "8dcdca83f4454e4699c0243fe1ebd4d8",
+      "Id": "35ee3d15b8324f69b092723937bcab56"
+    },
+    {
+      "Start": "38111bb433434e3aa5196cc407c6a351",
+      "End": "4659be94baf74694b3cb4001b54364c0",
+      "Id": "eb1f87a84981499d990cbbe2a2c26b33"
+    },
+    {
+      "Start": "a0ed53da98934b71b38a88418aea9106",
+      "End": "957fbeb51cf64290992928225e0e6eb6",
+      "Id": "7125b6255b1b42898f9fea3ad1e71c0b"
+    },
+    {
+      "Start": "38fa25f6ae8a473381b1e275c80ba541",
+      "End": "b4211a0ba78d4740a927be361ac7ea0f",
+      "Id": "6af44004908346ed8b42fc724dd93227"
+    },
+    {
+      "Start": "6f5a41948d5d4b6bb74e0006dbc0bb10",
+      "End": "188f966304c24cc2b6fefb9cd8bc9ee0",
+      "Id": "8293f3aceaee4b7bb240f9e9e97927da"
+    },
+    {
+      "Start": "a67cf502ffcd4f42b65e6e5a81bdb497",
+      "End": "aadf1394c3624023bd536e6db01c8abd",
+      "Id": "e353809a3fa640958eb61aeb7b52d0e7"
+    },
+    {
+      "Start": "e838eee2d85648efa55523af7d629bbe",
+      "End": "22f67e0958764b69bde5c5266a0a77c5",
+      "Id": "6ff1be3f36e94c8ea715504b71e9d4e9"
+    },
+    {
+      "Start": "005b7664d1fd47c79a9bfed56ba012a0",
+      "End": "dfa1e3b2ca11402491dc39d046bed571",
+      "Id": "01dab412e6874f07ac25e994b28dbe6f"
+    },
+    {
+      "Start": "2c4ffa44dc3f4bd788e6fee68d238b4a",
+      "End": "112e6b8ae142468eac20e7151db31535",
+      "Id": "4734caefaf4e481bb95e5f0e0c19a840"
+    },
+    {
+      "Start": "a6a50d8cd2e8430685da1ed4d108ef95",
+      "End": "f9647d76c7b64718ac0aaf95c5b0f0aa",
+      "Id": "3b6c95e68ef24b09bacbd8ddfc1218a5"
+    },
+    {
+      "Start": "742b1bf2d6be4dae8410f02ac561dfa1",
+      "End": "ffb5eeacaf7c4b8dbdba6ef1cbea5ead",
+      "Id": "f1376363241b413590b515a20f075493"
+    }
+  ],
+  "Dependencies": [],
+  "Bindings": [],
+  "View": {
+    "Dynamo": {
+      "ScaleFactor": 1.0,
+      "HasRunWithoutCrash": true,
+      "IsVisibleInDynamoLibrary": true,
+      "Version": "2.0.2.6826",
+      "RunType": "Automatic",
+      "RunPeriod": "1000"
+    },
+    "Camera": {
+      "Name": "Фоновый просмотр",
+      "EyeX": -17.0,
+      "EyeY": 24.0,
+      "EyeZ": 50.0,
+      "LookX": 12.0,
+      "LookY": -13.0,
+      "LookZ": -58.0,
+      "UpX": 0.0,
+      "UpY": 1.0,
+      "UpZ": 0.0
+    },
+    "NodeViews": [
+      {
+        "ShowGeometry": true,
+        "Name": "Поставьте True, если хотите учесть трубы по ГОСТ 3262-75 в расчёте!",
+        "Id": "2ccd54ed021445c98780833137fa7716",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -345.15825463697979,
+        "Y": 673.01036665094659
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Напишите диаметры труб через пробел. Пример: 6 8 10",
+        "Id": "9f56bda89c11412ea6cc719a8bb00048",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -346.50118383375718,
+        "Y": 783.72218872523661
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Подведение итогов работы",
+        "Id": "5a5d51348c374a939a00158be7602db5",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "X": 2709.62212503453,
+        "Y": 1365.8676883965738
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Напишите количество метров для каждой трубы, соответственно диаметрам труб через пробел. Пример: 10 20 30",
+        "Id": "f7b1a50f48ba47f9b6c04204712cfb7b",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -348.53830578111581,
+        "Y": 869.22875046321906
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Модуль проверки вводимых данных",
+        "Id": "69502b297b1e498881ded95aa019181a",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 886.14828587234979,
+        "Y": 787.81076830197276
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Расчётный блок",
+        "Id": "aacd20340b464ba98e49cac00b29db65",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1580.6527053244886,
+        "Y": 1232.7678931210255
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Модуль проверки вводимых данных",
+        "Id": "e1a9029ce3954fc4922f0206a9003ceb",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 878.65623993041481,
+        "Y": 1198.3813684600636
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Расчётный блок",
+        "Id": "32bf7e9657014c3a9541939967af2702",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1579.054906889517,
+        "Y": 1362.9055838885781
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Поставьте True, если хотите учесть швеллеры по ГОСТ 8240-97 в расчёте!",
+        "Id": "cd190d23569b49b7932959fd2dd838ba",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -393.43950986546861,
+        "Y": 1175.6040026393066
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Напишите номера швеллеров через пробел. Пример: 5 8 10",
+        "Id": "32f8279ab8894585a7da31e70081d166",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -394.78243906224657,
+        "Y": 1286.3158247135998
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Напишите количество килограмм для каждого типа швеллера, соответственно номерам швеллеров через пробел. Пример: 10 20 30",
+        "Id": "f352c8739a5a4e2cbf2bf4d37dbfe203",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -396.81956100960463,
+        "Y": 1371.8223864515794
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Поставьте True, если хотите учесть уголки по ГОСТ 8509-93 в расчёте!",
+        "Id": "d48fbc31da7e4eeb91935cf93f3a1899",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -422.8978105782877,
+        "Y": 1640.2435737630587
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Напишите данные для каждого уголка в формате \"номер уголка-толщина уголка\" через пробел. Пример: 2-3 3-3 5-4",
+        "Id": "a868effbab804630923c603678611646",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -424.24073977506464,
+        "Y": 1750.9553958373488
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Расчётный блок",
+        "Id": "5f6f7eecd3d649f7ba6edf3a3798fd46",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1579.08193404626,
+        "Y": 1508.7697512925272
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Напишите количество килограмм для каждого типа уголка, соответственно номерам уголков и их толщинам через пробел. Пример: 10 20 30",
+        "Id": "f3f3b723ad5e41fea5640e11f1be188e",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -426.27786172242361,
+        "Y": 1836.4619575753306
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Модуль проверки вводимых данных",
+        "Id": "b9dd908e90ee4363924da50443c49d2b",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 883.97820817091588,
+        "Y": 1670.2348754176987
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Модуль проверки вводимых данных",
+        "Id": "3f07e9dfdad743259df23c656df4b36c",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 878.165357636836,
+        "Y": 2091.6100119061366
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Поставьте True, если хотите учесть полосы по ГОСТ 103-2006 в расчёте!",
+        "Id": "0a1fe19a64b8455fba5a2796633651d8",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -418.1551071745987,
+        "Y": 2086.7052066439865
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Напишите данные для каждой полосы в формате \"ширина полосы-толщина полосы\" через пробел. Пример: 10-4 20-5 70-4",
+        "Id": "74fffc5725c249b783d94ffe416c1333",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -419.49803637137575,
+        "Y": 2197.4170287182765
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Напишите количество метров для каждого типа полосы, соответственно ширине и толщине полосы через пробел. Пример: 10 20 30",
+        "Id": "4436e15cbc144cc38507706e0ecd015c",
+        "IsSetAsInput": true,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": -421.53515831873472,
+        "Y": 2282.9235904562565
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Расчётный блок",
+        "Id": "7d73d325ac6243de8a49f90f949b8813",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": false,
+        "Excluded": false,
+        "X": 1584.1469382120413,
+        "Y": 1662.1080137379311
+      },
+      {
+        "ShowGeometry": true,
+        "Name": "Централизованный результирующий блок анализа, обработки и вывода данных",
+        "Id": "ead99bdec960446db6e7933c2e16cc68",
+        "IsSetAsInput": false,
+        "IsSetAsOutput": true,
+        "Excluded": false,
+        "X": 1985.4857720851678,
+        "Y": 1364.686812502257
+      }
+    ],
+    "Annotations": [
+      {
+        "Id": "639fc44d7e314ed99119748428bcc76f",
+        "Title": "Входные данные для труб по ГОСТ 3262-75",
+        "Nodes": [
+          "2ccd54ed021445c98780833137fa7716",
+          "9f56bda89c11412ea6cc719a8bb00048",
+          "f7b1a50f48ba47f9b6c04204712cfb7b"
+        ],
+        "Left": -358.53830578111581,
+        "Top": 620.01036665094659,
+        "Width": 787.0,
+        "Height": 317.21838381227246,
+        "FontSize": 36.0,
+        "InitialTop": 673.01036665094659,
+        "InitialHeight": 341.21838381227246,
+        "TextblockHeight": 43.0,
+        "Background": "#FFD4B6DB"
+      },
+      {
+        "Id": "fe336d9d0c404c38ab0c99f11d1438a6",
+        "Title": "Входные данные для швеллеров по ГОСТ 8240-97",
+        "Nodes": [
+          "cd190d23569b49b7932959fd2dd838ba",
+          "32f8279ab8894585a7da31e70081d166",
+          "f352c8739a5a4e2cbf2bf4d37dbfe203"
+        ],
+        "Left": -406.81956100960463,
+        "Top": 1122.6040026393066,
+        "Width": 909.0,
+        "Height": 317.2183838122728,
+        "FontSize": 36.0,
+        "InitialTop": 1175.6040026393066,
+        "InitialHeight": 341.2183838122728,
+        "TextblockHeight": 43.0,
+        "Background": "#FFFFC999"
+      },
+      {
+        "Id": "6538e5b426384ccdbcf9dd2d64e1e6ae",
+        "Title": "Входные данные для уголков по ГОСТ 8509-93",
+        "Nodes": [
+          "d48fbc31da7e4eeb91935cf93f3a1899",
+          "a868effbab804630923c603678611646",
+          "f3f3b723ad5e41fea5640e11f1be188e"
+        ],
+        "Left": -436.27786172242361,
+        "Top": 1587.2435737630587,
+        "Width": 968.0,
+        "Height": 317.2183838122719,
+        "FontSize": 36.0,
+        "InitialTop": 1640.2435737630587,
+        "InitialHeight": 341.2183838122719,
+        "TextblockHeight": 43.0,
+        "Background": "#FFB9F9E1"
+      },
+      {
+        "Id": "8498c4b9ac014390bb99afb97746f91d",
+        "Title": "Входные данные для полосы по ГОСТ 103-2006",
+        "Nodes": [
+          "0a1fe19a64b8455fba5a2796633651d8",
+          "74fffc5725c249b783d94ffe416c1333",
+          "4436e15cbc144cc38507706e0ecd015c"
+        ],
+        "Left": -431.53515831873472,
+        "Top": 2033.7052066439865,
+        "Width": 909.0,
+        "Height": 317.21838381227008,
+        "FontSize": 36.0,
+        "InitialTop": 2086.7052066439865,
+        "InitialHeight": 341.21838381227008,
+        "TextblockHeight": 43.0,
+        "Background": "#FFA4E1FF"
+      },
+      {
+        "Id": "d3eb28b9207d4d428a3f7a302ec7697b",
+        "Title": "Анализаторы входных данных",
+        "Nodes": [
+          "69502b297b1e498881ded95aa019181a",
+          "e1a9029ce3954fc4922f0206a9003ceb",
+          "b9dd908e90ee4363924da50443c49d2b",
+          "3f07e9dfdad743259df23c656df4b36c"
+        ],
+        "Left": 868.165357636836,
+        "Top": 691.81076830197276,
+        "Width": 280.98292823551378,
+        "Height": 1544.7992436041638,
+        "FontSize": 36.0,
+        "InitialTop": 787.81076830197276,
+        "InitialHeight": 1448.7992436041638,
+        "TextblockHeight": 86.0,
+        "Background": "#FF48B9FF"
+      },
+      {
+        "Id": "8f5f2d75464f4931bbe7576ec9fb1d60",
+        "Title": "Расчётные блоки данных",
+        "Nodes": [
+          "aacd20340b464ba98e49cac00b29db65",
+          "32bf7e9657014c3a9541939967af2702",
+          "5f6f7eecd3d649f7ba6edf3a3798fd46",
+          "7d73d325ac6243de8a49f90f949b8813"
+        ],
+        "Left": 1569.054906889517,
+        "Top": 1092.7678931210255,
+        "Width": 184.18333333333334,
+        "Height": 662.34012061690555,
+        "FontSize": 36.0,
+        "InitialTop": 1232.7678931210255,
+        "InitialHeight": 574.34012061690555,
+        "TextblockHeight": 130.0,
+        "Background": "#FF71C6A8"
+      },
+      {
+        "Id": "ed18cda7ea2547efb3280be1a7772638",
+        "Title": "Результаты работы программы",
+        "Nodes": [
+          "5a5d51348c374a939a00158be7602db5",
+          "ead99bdec960446db6e7933c2e16cc68"
+        ],
+        "Left": 1975.4857720851678,
+        "Top": 1311.686812502257,
+        "Width": 1034.1363529493624,
+        "Height": 224.0,
+        "FontSize": 36.0,
+        "InitialTop": 1364.686812502257,
+        "InitialHeight": 146.18087589431684,
+        "TextblockHeight": 43.0,
+        "Background": "#FFBB87C6"
+      }
+    ],
+    "X": 563.29943460094728,
+    "Y": -2258.1022634749561,
+    "Zoom": 1.2513722166471846
+  }
+}
