@@ -106,7 +106,7 @@
     },
     {
       "Id": "6c10ab6d38bd41d8bff67e15b5b73b2a",
-      "Name": "Поставьте галочку в положение True, если хотите занести полученные результаты в значения количества для грунт-эмали Masscoat 155 и Уайт-спирита",
+      "Name": "Поставьте галочку в положение True, если хотите занести полученные результаты в значения количества для грунт-эмали Masscoat 155 и Уайт-спирита (не забудьте установить К.запаса = 1 для краски и обезжиривателя!)",
       "Type": "boolean",
       "Value": "false",
       "Description": "Выбор между значениями true и false."
@@ -799,7 +799,7 @@
     {
       "ConcreteType": "PythonNodeModels.PythonNode, PythonNodeModels",
       "NodeType": "PythonScriptNode",
-      "Code": "calculation_solution = IN[1]\r\ncode_analysis, total_value_dye, data_output = IN[0]\r\nif calculation_solution and code_analysis in (3, 4):\r\n\timport clr\r\n\t\r\n\tclr.AddReference('RevitAPI')\r\n\tfrom Autodesk.Revit.DB import *\r\n\t\r\n\tclr.AddReference('RevitServices')\r\n\tfrom RevitServices.Persistence import DocumentManager as DM\r\n\tfrom RevitServices.Transactions import TransactionManager as TM\r\n\t\r\n\timport System\r\n\tfrom System import Guid\r\n\tfrom System.Collections.Generic import List\r\n\t\r\n\tdoc = DM.Instance.CurrentDBDocument\r\n\t\r\n\tcats = List[BuiltInCategory]()\r\n\tcats.Add(BuiltInCategory.OST_DetailComponents)\r\n\t\r\n\tfilter = ElementMulticategoryFilter(cats)\r\n\t\r\n\telems = FilteredElementCollector(doc, doc.ActiveView.Id).WherePasses(filter).ToElements()\r\n\t\r\n\tvals, id_vals = [], ('194970', '41656')\r\n\t\r\n\tfor el in elems:\r\n\t\tif el.get_Parameter(Guid('6c4a27c3-b1f2-4052-b343-d8d1a62023c0')).AsString() in id_vals and el.GetParameters('К.запаса')[0].AsDouble():\r\n\t\t\tvals.append(el)\r\n\t\r\n\tTM.Instance.EnsureInTransaction(doc)\r\n\t\r\n\tfor v in vals:\r\n\t\tv.get_Parameter(Guid('c6b2777b-70e5-42ca-8cba-3796bb2197fc')).Set(total_value_dye)\r\n\t\r\n\tTM.Instance.TransactionTaskDone()\r\n\t\r\n\tOUT = data_output + '\\nЗначения для количества килограмм грунт-эмали Masscoat155 и Уайт-спирита были успешно занесены в соответствующие позиции чертёжного вида!'\r\nelse:\r\n\tOUT = data_output",
+      "Code": "calculation_solution = IN[1]\r\ncode_analysis, total_value_dye, data_output = IN[0]\r\nif calculation_solution and code_analysis in (3, 4):\r\n\timport clr\r\n\t\r\n\tclr.AddReference('RevitAPI')\r\n\tfrom Autodesk.Revit.DB import *\r\n\t\r\n\tclr.AddReference('RevitServices')\r\n\tfrom RevitServices.Persistence import DocumentManager as DM\r\n\tfrom RevitServices.Transactions import TransactionManager as TM\r\n\t\r\n\timport System\r\n\tfrom System import Guid\r\n\tfrom System.Collections.Generic import List\r\n\t\r\n\tdoc = DM.Instance.CurrentDBDocument\r\n\t\r\n\tcats = List[BuiltInCategory]()\r\n\tcats.Add(BuiltInCategory.OST_DetailComponents)\r\n\t\r\n\tfilter = ElementMulticategoryFilter(cats)\r\n\t\r\n\telems = FilteredElementCollector(doc, doc.ActiveView.Id).WherePasses(filter).ToElements()\r\n\t\r\n\tvals, id_vals = [], ('194970', '41656')\r\n\t\r\n\tfor el in elems:\r\n\t\tif el.get_Parameter(Guid('6c4a27c3-b1f2-4052-b343-d8d1a62023c0')).AsString() in id_vals and el.GetParameters('К.запаса')[0].AsDouble():\r\n\t\t\tvals.append(el)\r\n\tOUT = elems, vals\r\n\tTM.Instance.EnsureInTransaction(doc)\r\n\t\r\n\tfor v in vals:\r\n\t\tv.get_Parameter(Guid('c6b2777b-70e5-42ca-8cba-3796bb2197fc')).Set(total_value_dye)\r\n\t\r\n\tTM.Instance.TransactionTaskDone()\r\n\t\r\n\tif vals:\r\n\t\tOUT = data_output + '\\nЗначения для количества килограмм грунт-эмали Masscoat155 и Уайт-спирита были успешно занесены в соответствующие позиции чертёжного вида!'\r\n\telse:\r\n\t\tOUT = data_output + '\\nЗначения для количества килограмм грунт-эмали Masscoat155 и Уайт-спирита не были занесены в чертёжный вид! Возможные решения проблемы:\\n1. Уточните, точно ли существуют грунт-эмаль с номером_ЭК = 194970 и Уайт-спирит с номером_ЭК = 41656.\\n2. Проверьте, установлены ли коэффициенты запаса (К.запаса) равными 1 для краски и обезжиривателя.'\r\nelse:\r\n\tOUT = data_output",
       "VariableInputPorts": true,
       "Id": "c697c8f228ca444b9213abea6a2e2027",
       "Inputs": [
@@ -1005,8 +1005,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": true,
         "Excluded": false,
-        "X": 3922.6782790792704,
-        "Y": 1315.5107484071941
+        "X": 4580.3974808823623,
+        "Y": 1284.486257756105
       },
       {
         "ShowGeometry": true,
@@ -1200,7 +1200,7 @@
       },
       {
         "ShowGeometry": true,
-        "Name": "Поставьте галочку в положение True, если хотите занести полученные результаты в значения количества для грунт-эмали Masscoat 155 и Уайт-спирита",
+        "Name": "Поставьте галочку в положение True, если хотите занести полученные результаты в значения количества для грунт-эмали Masscoat 155 и Уайт-спирита (не забудьте установить К.запаса = 1 для краски и обезжиривателя!)",
         "Id": "6c10ab6d38bd41d8bff67e15b5b73b2a",
         "IsSetAsInput": true,
         "IsSetAsOutput": false,
@@ -1215,8 +1215,8 @@
         "IsSetAsInput": false,
         "IsSetAsOutput": false,
         "Excluded": false,
-        "X": 3105.15199269404,
-        "Y": 1411.9657970977748
+        "X": 3634.6366331392965,
+        "Y": 1407.8291983442962
       }
     ],
     "Annotations": [
@@ -1340,18 +1340,18 @@
           "5a5d51348c374a939a00158be7602db5"
         ],
         "Left": 1997.2243925394696,
-        "Top": 1262.5107484071941,
-        "Width": 2225.4538865398008,
-        "Height": 485.07766085966182,
+        "Top": 1231.486257756105,
+        "Width": 2883.1730883428927,
+        "Height": 516.1021515107509,
         "FontSize": 36.0,
-        "InitialTop": 1315.5107484071941,
+        "InitialTop": 1284.486257756105,
         "InitialHeight": 509.07766085966182,
         "TextblockHeight": 43.0,
         "Background": "#FFFFB8D8"
       }
     ],
-    "X": -724.87366811038794,
-    "Y": -652.18012207395918,
-    "Zoom": 0.69469530646784261
+    "X": 808.37150164792729,
+    "Y": -645.4873346283473,
+    "Zoom": 1.2622566435943108
   }
 }
